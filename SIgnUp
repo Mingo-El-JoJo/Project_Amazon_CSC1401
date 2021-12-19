@@ -1,0 +1,64 @@
+void signup(char email[],char fname[],char lname[],char psw[],char bank[],char balance[],char question[],char ans[])
+{
+    char femail[100], fbank[50],ch;
+    int flag,num;
+    FILE *f;
+    printf("Enter your first name: ");
+    scanf("%s", fname);
+    printf("\nEnter your last name: ");
+    scanf("%s", lname);
+    do
+    {
+        flag=0;
+        printf("\nEnter your email: ");
+        scanf("%s", email);
+        f=fopen("database.txt", "r");
+        while(fscanf(f,"%s %*s %*s %*s %*s %*s %*s %*s", femail)!=EOF)
+            if(strcmp(femail,email)==0)
+            {
+                flag=1;
+                printf("\nEmail already exists! Please try again");
+            }
+    }
+    while(flag==1);
+    do
+    {
+        printf("\nEnter your password: ");
+        scanf("%s", psw);
+        if(strlen(psw)<8)
+            printf("\nYour password is too short!(The password must countain at least 8 characters). Please try again");
+    }
+    while(strlen(psw)<8);
+    do
+    {
+        flag=0;
+        do
+        {
+            printf("\nEnter your bank account: ");
+            scanf("%s", bank);
+            if(sscanf(bank, "%i%c", &num,&ch)!=1)
+                printf("\nYour account number may only countain digits! Please try again");
+        }
+        while(sscanf(bank, "%i%c", &num,&ch)!=1);
+        f=fopen("database.txt", "r");
+        while(fscanf(f,"%*s %*s %*s %*s %s %*s %*s %*s", fbank)!=EOF)
+            if(strcmp(fbank,bank)==0)
+            {
+                flag=1;
+                printf("\nBank account already exists! Please try again");
+            }
+    }
+    while(flag==1);
+    do
+    {
+        printf("\nEnter the balance you want to import to your Amazon account in MAD: ");
+        scanf("%s", balance);
+        if(sscanf(balance, "%i%c", &num,&ch)!=1)
+                printf("\nBalance can only be a number! Please try again");
+    }
+    while(sscanf(balance, "%i%c", &num,&ch)!=1);
+    printf("\nEnter your secret question: ");
+    scanf("%s", question);
+    printf("\nEnter your response: ");
+    scanf("%s", ans);
+}
